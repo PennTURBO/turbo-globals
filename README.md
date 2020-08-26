@@ -1,2 +1,2 @@
 # turbo-globals
-Currently includes some gists used by R code in multiple TURBO repos
+Contains some R code used in multiple TURBO repos
