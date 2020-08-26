@@ -40,7 +40,7 @@ options(scipen = 999)
 print("Default file path set to:")
 print(getwd())
 
-config.file <- "turbo_R_setup.yaml"
+config.file <- "config/turbo_R_setup.yaml"
 
 config <- config::get(file = config.file)
 
