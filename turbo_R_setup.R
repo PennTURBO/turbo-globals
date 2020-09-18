@@ -45,6 +45,14 @@ config.file <- "config/turbo_R_setup.yaml"
 
 config <- config::get(file = config.file)
 
+####
+
+execution.timestamp <- as.POSIXlt(Sys.time(), "UTC", "%Y-%m-%dT%H:%M:%S")
+execution.timestamp <- strftime(execution.timestamp , "%Y-%m-%d")
+
+
+####
+
 chunk.vec <- function(vec, chunk.count) {
   split(vec, cut(seq_along(vec), chunk.count, labels = FALSE))
 }
