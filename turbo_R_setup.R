@@ -909,3 +909,50 @@ rxnav.test.and.refresh <- function() {
     
   })
 }
+
+build.source.med.classifications.annotations <-
+  function(version.list,
+           onto.iri,
+           onto.file,
+           onto.file.format) {
+    # print(version.list$semantic)
+    # print(version.list$datestamp)
+    # print(onto.iri)
+    # print(onto.file)
+    # cat(config$source.med.classifications.onto.comment)
+    
+    annotation.model <- rdf()
+    
+    rdflib::rdf_add(
+      rdf = annotation.model,
+      subject = onto.iri,
+      predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      object = "http://www.w3.org/2002/07/owl#Ontology"
+    )
+    
+    rdflib::rdf_add(
+      rdf = annotation.model,
+      subject = onto.iri,
+      predicate = "http://purl.org/dc/terms/created",
+      object = version.list$datestamp
+    )
+    
+    rdflib::rdf_add(
+      rdf = annotation.model,
+      subject = onto.iri,
+      predicate = "http://www.w3.org/2002/07/owl#versionInfo",
+      object = version.list$semantic
+    )
+    
+    rdflib::rdf_add(
+      rdf = annotation.model,
+      subject = onto.iri,
+      predicate = "http://www.w3.org/2000/01/rdf-schema#comment",
+      object = config$source.med.classifications.onto.comment
+    )
+    
+    rdf_serialize(rdf = annotation.model,
+                  doc = onto.file,
+                  format = onto.file.format)
+  }
+
