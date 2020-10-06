@@ -41,6 +41,9 @@ options(scipen = 999)
 print("Default file path set to:")
 print(getwd())
 
+pre_commit_tags <– readLines("../pre_commit_tags.txt")
+pre_commit_status <– readLines("../pre_commit_status.txt")
+
 config.file <- "config/turbo_R_setup.yaml"
 
 config <- config::get(file = config.file)
