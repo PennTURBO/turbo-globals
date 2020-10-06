@@ -47,8 +47,8 @@ print(getwd())
 #43: 
 #44: pre_commit_tags <–
 
-pre_commit_tags <- readLines("../pre_commit_tags.txt")
-pre_commit_status <- readLines("../pre_commit_status.txt")
+pre_commit_tags = readLines("../pre_commit_tags.txt")
+pre_commit_status = readLines("../pre_commit_status.txt")
 
 config.file <- "config/turbo_R_setup.yaml"
 
