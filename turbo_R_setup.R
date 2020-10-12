@@ -923,10 +923,7 @@ build.source.med.classifications.annotations <-
            onto.iri,
            onto.file,
            onto.file.format) {
-    # print(version.list$semantic)
-    # print(version.list$datestamp)
-    # print(onto.iri)
-    # print(onto.file)
+
     # cat(config$source.med.classifications.onto.comment)
     
     annotation.model <- rdf()
@@ -942,14 +939,14 @@ build.source.med.classifications.annotations <-
       rdf = annotation.model,
       subject = onto.iri,
       predicate = "http://purl.org/dc/terms/created",
-      object = version.list$datestamp
+      object = version.list$created
     )
     
     rdflib::rdf_add(
       rdf = annotation.model,
       subject = onto.iri,
       predicate = "http://www.w3.org/2002/07/owl#versionInfo",
-      object = version.list$semantic
+      object = version.list$versioninfo
     )
     
     rdflib::rdf_add(
