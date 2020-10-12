@@ -57,8 +57,7 @@ config <- config::get(file = config.file)
 ####
 
 execution.timestamp <- as.POSIXlt(Sys.time(), "UTC", "%Y-%m-%dT%H:%M:%S")
-execution.timestamp <- strftime(execution.timestamp , "%Y-%m-%d")
-
+execution.timestamp <- strftime(execution.timestamp , "%Y-%m-%dT%H:%M:%SZ")
 
 ####
 
