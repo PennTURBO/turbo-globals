@@ -961,3 +961,97 @@ build.source.med.classifications.annotations <-
                   format = onto.file.format)
   }
 
+bp.mappings.pair.to.minimal.df <- function(from.ont, to.ont) {
+  # initialize global variables for while loop
+  
+  more.pages <<- TRUE
+  aggregated.mapping <<- data.frame()
+  
+  # from.ont <- 'CHEBI'
+  # to.ont <- 'DRON'
+  
+  current.page <<- 1
+  next.page <<- 0
+  my.page.count <<- NA
+  
+  while (more.pages) {
+    print(paste0('Searching ', from.ont, ' against ', to.ont))
+    
+    print(paste0('page ',
+                 current.page,
+                 ' of ',
+                 my.page.count,
+                 ' pages'))
+    
+    pair.uri <-
+      paste0(
+        config$my.bioportal.api.base,
+        '/mappings?ontologies=',
+        from.ont,
+        ',',
+        to.ont,
+        '&apikey=',
+        config$my.apikey,
+        '&pagesize=',
+        config$my.pagesize,
+        '&page=',
+        current.page
+      )
+    mappings.result <- httr::GET(pair.uri)
+    mappings.result <- rawToChar(mappings.result$content)
+    whole.prep.parse <- mappings.result
+    
+    mappings.result <- jsonlite::fromJSON(mappings.result)
+    
+    current.page <<- mappings.result$page
+    next.page <<- mappings.result$nextPage
+    my.page.count <<- mappings.result$pageCount
+    
+    mappings.result <- mappings.result$collection
+    
+    if (length(mappings.result) > 0) {
+      mappings.result <-
+        mappings.result$classes[mappings.result$source == 'LOOM']
+      inner.res <-
+        lapply(mappings.result, function(current.result) {
+          # current.result <- mappings.result[[1]]
+          current.ids <- current.result$`@id`
+          current.ontologies <- current.result$links$ontology
+          return(
+            list(
+              'source.term' = current.ids[[1]],
+              'source.ontology' = current.ontologies[[1]],
+              'mapped.term' = current.ids[[2]],
+              'mapped.ontology' = current.ontologies[[2]]
+            )
+          )
+        })
+      
+      inner.res <- do.call(rbind.data.frame, inner.res)
+      inner.res <-
+        inner.res[as.character(inner.res$source.term) != as.character(inner.res$mapped.term),]
+      inner.res <-
+        unique(inner.res[, c("source.term", "source.ontology", "mapped.term")])
+      
+      if (current.page >= my.page.count) {
+        more.pages <- FALSE
+      } else {
+        current.page <- next.page
+      }
+      
+      aggregated.mapping <<-
+        rbind.data.frame(aggregated.mapping, inner.res)
+    } else {
+      print(paste0("no rows in collection from page ", current.page))
+      print(whole.prep.parse)
+      if (current.page >= my.page.count) {
+        more.pages <- FALSE
+      } else {
+        current.page <- next.page
+      }
+    }
+    
+  }
+  
+  return(aggregated.mapping)
+}
