@@ -435,50 +435,46 @@ monitor.named.graphs <- function() {
   }
 }
 
-q2j2df <-
-  function(query,
-           endpoint = config$my.graphdb.base,
-           repo = config$my.selected.repo,
-           auth = saved.authentication) {
-    # query <- config$main.solr.query
-    
-    minquery <- gsub(pattern = " +",
-                     replacement = " ",
-                     x = query)
-    
-    rdfres <- httr::GET(
-      url = paste0(endpoint,
-                   "/repositories/",
-                   repo),
-      query = list(query = minquery),
-      auth
-    )
-    
-    # convert binary JSON SPARQL results to a minimal dataframe
-    rdfres <-
-      jsonlite::fromJSON(rawToChar(rdfres$content))
-    rdfres <- rdfres$results$bindings
-    
-    
-    rdfres <-
-      do.call(what = cbind.data.frame, args = rdfres)
-    keepers <- colnames(rdfres)
-    keepers <- keepers[grepl(pattern = "value$", x = keepers)]
-    rdfres <- rdfres[, keepers]
-    
+q2j2df <- function(query,
+                   endpoint = config$my.graphdb.base,
+                   repo = config$my.selected.repo,
+                   auth = saved.authentication) {
+  minquery <- gsub(pattern = " +",
+                   replacement = " ",
+                   x = query)
+  
+  rdfres <- httr::GET(
+    url = paste0(endpoint,
+                 "/repositories/",
+                 repo),
+    query = list(query = minquery),
+    auth
+  )
+  
+  # convert binary JSON SPARQL results to a minimal dataframe
+  rdfres <-
+    jsonlite::fromJSON(rawToChar(rdfres$content))
+  rdfres <- rdfres$results$bindings
+  rdfres <-
+    do.call(what = cbind.data.frame, args = rdfres)
+  keepers <- colnames(rdfres)
+  keepers <- keepers[grepl(pattern = "value$", x = keepers)]
+  rdfres <- rdfres[, keepers]
+  
+  if (is.data.frame(rdfres)) {
     # beautify column labels
     temp <-
       gsub(pattern = '\\.value$',
            replacement = '',
            x = colnames(rdfres))
-    # temp <- gsub(pattern = '^.*\\$',
-    #              replacement = '',
-    #              x = temp)
+    
     colnames(rdfres) <- temp
     
     return(rdfres)
-    
   }
+  
+}
+
 
 url.post.endpoint <-
   paste0(
