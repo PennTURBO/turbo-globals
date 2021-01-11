@@ -44,7 +44,7 @@ options(scipen = 999)
 print("Default file path set to:")
 print(getwd())
 
-pre_commit_tags = readLines("../release_tags.txt")
+pre_commit_tags = readLines("../release_tag.txt")
 pre_commit_status = readLines("../release_status.txt")
 
 execution.timestamp <-
