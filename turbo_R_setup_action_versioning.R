@@ -33,6 +33,9 @@ library(caret)
 # library(xgboost)
 # # also try party or xgboot for random forest modeling?
 
+# still more
+library(zip)
+
 # ensure that large integers aren't casted to scientific notation
 #  for example when being inserted into a SQL database
 options(scipen = 999)
