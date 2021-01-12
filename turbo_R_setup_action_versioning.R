@@ -149,7 +149,7 @@ make.table.frame <- function(my.vector) {
 get.string.dist.mat <- function(two.string.cols) {
   two.string.cols <- as.data.frame(two.string.cols)
   unique.string.combos <- unique(two.string.cols)
-  distance.cols = c("lv", "lcs", "qgram", "cosine", "jaccard", "jw")
+  distance.cols = sort(c("lv", "lcs", "qgram", "cosine", "jaccard", "jw"))
   distances <- lapply(distance.cols, function(one.meth) {
     print(one.meth)
     temp <-
@@ -684,9 +684,17 @@ bulk.approximateTerm <-
       print(current.query)
       params <- list(term = current.query, maxEntries = 50)
       r <-
-        httr::GET("http://localhost:4000/",
-                  path = "REST/approximateTerm.json",
-                  query = params)
+        httr::GET(
+          paste0(
+            "http://",
+            config$rxnav.api.address,
+            ":",
+            config$rxnav.api.port,
+            "/"
+          ),
+          path = "REST/approximateTerm.json",
+          query = params
+        )
       r <- rawToChar(r$content)
       r <- jsonlite::fromJSON(r)
       r <- r$approximateGroup$candidate
