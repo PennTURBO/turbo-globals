@@ -34,7 +34,11 @@ library(caret)
 # # also try party or xgboot for random forest modeling?
 
 # still more
+# classification
 library(zip)
+
+# get bioportal mappings
+library(gtools)
 
 # ensure that large integers aren't casted to scientific notation
 #  for example when being inserted into a SQL database
