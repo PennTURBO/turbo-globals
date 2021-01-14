@@ -51,13 +51,19 @@ options(scipen = 999)
 print("Default file path set to:")
 print(getwd())
 
-pre_commit_tags = readLines("../release_tag.txt")
-pre_commit_status = readLines("../release_status.txt")
+# pre_commit_tags = readLines("../release_tag.txt")
+# pre_commit_status = readLines("../release_status.txt")
 
 execution.timestamp <-
   as.POSIXlt(Sys.time(), "UTC", "%Y-%m-%dT%H:%M:%S")
 execution.timestamp <-
   strftime(execution.timestamp , "%Y-%m-%dT%H:%M:%S%z")
+
+release_tag.fp <- "../release_tag.txt"
+temp <- read_lines(release_tag.fp)
+version.list <-
+  list(versioninfo = temp,
+       created = execution.timestamp)
 
 config.file <- "config/turbo_R_setup.yaml"
 
