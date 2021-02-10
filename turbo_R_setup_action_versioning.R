@@ -59,8 +59,12 @@ execution.timestamp <-
 execution.timestamp <-
   strftime(execution.timestamp , "%Y-%m-%dT%H:%M:%S%z")
 
-release_tag.fp <- "../release_tag.txt"
-temp <- read_lines(release_tag.fp)
+# release_tag.fp <- "../release_tag.txt"
+# temp <- read_lines(release_tag.fp)
+
+temp <- yaml::read_yaml("../app.yaml")
+temp <- temp$version
+
 version.list <-
   list(versioninfo = temp,
        created = execution.timestamp)
