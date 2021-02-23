@@ -9,4 +9,4 @@ library(SPARQL)
 # the functions shouldn't really use any global variables,
 #   but I have done that in some cases
 
-print("from local file system")
+print("from web URL")
