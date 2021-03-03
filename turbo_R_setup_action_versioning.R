@@ -3,6 +3,18 @@ options(java.parameters = "-Xmx6g")
 # CHECK FOR SILENT USE OF GLOBAL VARIABLES
 # including config$
 
+# # trickier
+## would any of this require the Rtools system package in Windows?
+
+# install.packages("rJava")  
+# install.packages("devtools")  
+# library(devtools)  
+# install_github("egonw/rrdf", subdir="rrdflibs")  
+# install_github("egonw/rrdf", subdir="rrdf", build_vignettes = FALSE) 
+library(rJava)
+library(devtools)
+library(rrdf)
+
 # see also https://jangorecki.gitlab.io/data.cube/library/data.table/html/dcast.data.table.html
 library(config)
 library(dplyr)
