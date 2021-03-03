@@ -6,6 +6,7 @@ options(java.parameters = "-Xmx6g")
 # see also https://jangorecki.gitlab.io/data.cube/library/data.table/html/dcast.data.table.html
 library(config)
 library(dplyr)
+library(e1071)
 library(ggplot2)
 library(httr)
 library(igraph)
